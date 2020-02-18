@@ -1,8 +1,10 @@
 package statements_expressions;
 
+import main.AbstractASTNode;
+
 import java.util.List;
 
-public class FunctionInvocation extends AbstractStatement implements Expression {
+public class FunctionInvocation extends AbstractASTNode implements Expression, Statement {
     private List<Expression> expressions;
     private Variable variable;
 

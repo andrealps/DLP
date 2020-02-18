@@ -1,6 +1,11 @@
 package statements_expressions;
 
-public class AbstractUnaryExpressionStatement extends AbstractStatement {
+import main.AbstractASTNode;
+
+/**
+ * Un statement que a su vez tiene una única expresión
+ */
+public class AbstractUnaryExpressionStatement extends AbstractASTNode implements Statement {
     private Expression expression;
 
     public AbstractUnaryExpressionStatement(int line, String column, Expression expression) {
