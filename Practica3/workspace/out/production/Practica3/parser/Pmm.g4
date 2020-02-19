@@ -1,18 +1,61 @@
 grammar Pmm;	
 
-program: CHAR_CONSTANT
-       ;
+/** GRAMATICA **/
 
-REAL_CONSTANT: INT_CONSTANT ('e'|'E') ('+'|'-')? [0-9]+
-                | (INT_CONSTANT '.' INT_CONSTANT* | '.' INT_CONSTANT*) (('e'|'E') ('+'|'-')? [0-9]+)?;
+program: ;
 
-ID: ('_' [a-zA-Z0-9_] | [a-zA-Z]) [a-zA-Z0-9_]*;
+expresion: '(' expresion ')'
+            |expresion '[' expresion ']'
+            |expresion '.'
+            |'(' tipo ')' expresion
+            |'-' expresion
+            |'!' expresion
+            |('*'|'/'|'%') expresion
+            |expresion ('+'|'-') expresion
+            |expresion ('>'|'>='|'<'|'<='|'!='|'==') expresion
+            |expresion ('&&'|'||') expresion
+            |expresion '=' expresion
+            |ID
+            |REAL_CONSTANT
+            |INT_CONSTANT
+            |CHAR_CONSTANT;
 
-CHAR_CONSTANT: '\'' (. | '\\' ('n' | 't' | [0-9]+) ) '\'' ;
+cast: '(' tipo ')';
 
-INT_CONSTANT: '0' | [1-9] [0-9]*;
+tipo: ('int'|'double'|'char');
+
+function_invocation:
+
+/**
+def_variable: ID (',' ID)* ':' ('int'|'double'|'char');
+
+def_funcion: 'def' ID '(' ()* ')' ':' '{' ;
+**/
+
+
+/**
+También se puede poner:
+expressions: expressions expressions | ;
+ **/
+
+/** LÉXICO **/
+
+WHITESPACE : [ \t\n\r]+ -> skip;
 
 COMMENT: ('#' .*? ('\n'|EOF) | '"""' .*? '"""') -> skip;
 
-WHITESPACE : [ \t\n\r]+ -> skip;
+INT_CONSTANT: '0' | [1-9] [0-9]*;
+
+REAL_CONSTANT: INT_CONSTANT ('e'|'E') ('+'|'-')? [0-9]+
+                | (INT_CONSTANT '.' INT_CONSTANT* | '.' INT_CONSTANT+) (('e'|'E') ('+'|'-')? [0-9]+)?;
+
+
+CHAR_CONSTANT: '\'' (. | '\\' ('n' | 't' | [0-9]+) ) '\'' ;
+
+
+ID: ('_' [a-zA-Z0-9_] | [a-zA-Z]) [a-zA-Z0-9_]*;
+
+
+
+
 
