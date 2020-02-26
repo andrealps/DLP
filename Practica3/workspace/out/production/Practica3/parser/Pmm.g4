@@ -1,42 +1,69 @@
 grammar Pmm;	
 
+@header{
+    import ast.*;
+}
+
 /** GRAMATICA **/
 
-program: ;
+program returns [Program ast]:
+    (vardef|funcdef)+
+	;
 
-expresion: '(' expresion ')'
-            |expresion '[' expresion ']'
-            |expresion '.'
-            |'(' tipo ')' expresion
-            |'-' expresion
-            |'!' expresion
-            |('*'|'/'|'%') expresion
-            |expresion ('+'|'-') expresion
-            |expresion ('>'|'>='|'<'|'<='|'!='|'==') expresion
-            |expresion ('&&'|'||') expresion
-            |expresion '=' expresion
-            |ID
-            |REAL_CONSTANT
-            |INT_CONSTANT
-            |CHAR_CONSTANT;
+vardef:
+    ID (',' ID)* ':' primitiveType ';'
+    | ID ':' 'struct' '{' (param ';')+ '}'';'
+    | ID ':' ('[' INT_CONSTANT ']')+ primitiveType ';'
+    ;
 
-cast: '(' tipo ')';
+primitiveType:
+    ('int' | 'char' | 'double')
+    ;
 
-tipo: ('int'|'double'|'char');
+funcdef:
+    'def' ID  '(' params? ')' ':' primitiveType? '{' vardef* statement* '}'
+    ;
 
-function_invocation:
+params:
+    param (',' param)*
+    ;
 
-/**
-def_variable: ID (',' ID)* ':' ('int'|'double'|'char');
+param:
+    ID ':' primitiveType
+    ;
 
-def_funcion: 'def' ID '(' ()* ')' ':' '{' ;
-**/
+statement:
+    function_invocation ';'
+    | 'return' expr ';'
+    | 'while' expr ':' '{' statement* '}'
+    | 'if' expr ':' (statement|'{'statement*'}') 'else' (statement|'{'statement*'}')
+    | 'print' expr (',' expr)* ';'
+    | 'input' expr (',' expr)* ';'
+    | expr '=' expr ';'
+    ;
 
+expr returns [Expresssion ast]:
+    INT_CONSTANT  {$ast = new IntLiteral(LexerHelper.lexemeToInt($INT_CONSTANT.text));}
+    | REAL_CONSTANT {$ast = new DoubleLiteral(LexerHelper.lexemeToReal($REAL_CONSTANT.text));}
+    | CHAR_CONSTANT {$ast = new CharLiteral((LexerHelper.lexemeToChar($CHAR_CONSTANT.text));}
+    | ID    {$ast = new Variable($ID.text);}
+    | '(' expr ')'  {$ast = $expr.ast;}
+    | expr '[' expr ']'  {$ast = ;}
+    | expr '.' ID    {$ast = ;}
+    | '(' primitiveType ')' expr    {$ast = new Cast;}
+    | '-' expr
+    | '!' expr
+    | expr ('*'|'/'|'%') expr
+    | expr ('+'|'-') expr
+    | expr ('>'|'>='|'<'|'<='|'!='|'==') expr
+    | expr ('&&'|'||') expr
+    | function_invocation
+    ;
 
-/**
-También se puede poner:
-expressions: expressions expressions | ;
- **/
+function_invocation
+    : ID '(' (expr (',' expr)*)? ')'
+    ;
+
 
 /** LÉXICO **/
 
