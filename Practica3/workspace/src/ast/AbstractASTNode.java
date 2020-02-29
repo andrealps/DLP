@@ -2,9 +2,9 @@ package ast;
 
 public class AbstractASTNode implements ASTNode {
     private int line;
-    private String column;
+    private int column;
 
-    public AbstractASTNode(int line, String column) {
+    public AbstractASTNode(int line, int column) {
         this.line = line;
         this.column = column;
     }
@@ -15,7 +15,7 @@ public class AbstractASTNode implements ASTNode {
     }
 
     @Override
-    public String getColumn() {
+    public int getColumn() {
         return column;
     }
 }

@@ -1,7 +1,8 @@
 package ast;
 
 public class RecordAcess extends AbstractBinaryExpression {
-    public RecordAcess(Expression expression1, Expression expression2) {
-        super(expression1, expression2);
+
+    public RecordAcess(int line, int column, Expression expression1, Expression expression2) {
+        super(line, column, expression1, expression2);
     }
 }

@@ -2,12 +2,15 @@ package ast;
 
 import java.util.List;
 
-public class Record implements Type {
-    private List<VarDefinition> definitions;
+public class Record extends AbstractType {
     private List<RecordField> recordFields;
 
-    public Record(List<VarDefinition> definitions, List<RecordField> recordFields) {
-        this.definitions = definitions;
+    public Record(int line, int column, List<RecordField> recordFields) {
+        super(line, column);
         this.recordFields = recordFields;
+    }
+
+    public List<RecordField> getRecordFields() {
+        return recordFields;
     }
 }

@@ -7,29 +7,58 @@ grammar Pmm;
 /** GRAMATICA **/
 
 program returns [Program ast]:
-    (vardef|funcdef)+
+    (vardef|funcdef)*
 	;
 
-vardef returns [VarDefinition ast]:
-    id1=ID {$ast.add($id1.text)}  (',' idm=ID {$ast.add($idm.txt)})* ':' primitiveType ';'
-    | ID ':' 'struct' '{' (param ';')+ '}'';'
-    | ID ':' ('[' INT_CONSTANT ']')+ primitiveType ';'
+vardef returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
+    ids ':' primitiveType ';'
+     { for (String id: $ids.ast)
+           $ast.add(new VarDefinition(id.getLine(), id.getCharPositionInLine()+1, $primitiveType.ast, id));
+     }
+
+    | ID ':' type ';'  {$ast.add(new VarDefinition($ID.getLine(), $ID.getCharPositionInLine()+1, $type.ast, $ID.text))}
     ;
 
 primitiveType returns [Type ast]:
-    ('int' | 'char' | 'double') {$ast = new Type()}
+     'int' {$ast = IntType.getInstance();}
+     |'char' {$ast = CharType.getInstance();}
+     |'double' {$ast = DoubleType.getInstance();}
     ;
 
-funcdef:
+type returns [Type ast]:
+    primitiveType   {$ast = $primitiveType.ast;}
+    |pri='[' INT_CONSTANT ']' type
+    {$ast = new Array($pri.getLine(), $pri.getCharPositionInLine()+1,
+            LexerHelper.lexemeToInt($INT_CONSTANT.text), $type.ast);
+    }
+
+    | 'struct' '{' listVariable '}'
+    { List<RecordField> recordFields = new ArrayList<RecordField>();
+      for (VarDefinition variable: $listVariable.ast)
+          recordFields.add(new RecordField(variable.getName(), variable.getType()));
+      $ast = new Record($ID.getLine(), $ID.getCharPositionInLine()+1, recordFields);
+    }
+    ;
+
+funcdef returns [FuncDefinition ast]:
     'def' ID  '(' params? ')' ':' primitiveType? '{' vardef* statement* '}'
     ;
 
 params returns [List<String> ast = new ArrayList<String()]:
-    id1=param {$ast.add($id1.text)}  (',' idm=param {$ast.add($idm.txt)})*
+    id1=param {$ast.add($id1.ast)}  (',' idm=param {$ast.add($idm.ast)})*
     ;
 
-param returns []:
-    ID ':' primitiveType
+listVariable returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
+    (param ';' {$ast.add($param.ast)})+
+    ;
+
+param returns [VarDefinition ast]:
+    ID ':' primitiveType {$ast = new VarDefinition($ID.getLine(), $ID.getCharPositionInLine()+1, primitiveType, $ID.text)}
+    ;
+
+
+ids returns [List<String> ast = new ArrayList<String>()]:
+    id1=ID {$ast.add($id1.text)} (',' idm=ID {$ast.add($idm.text)})*
     ;
 
 statement returns [List<Statement> ast = new ArrayList<Statement>()]:
@@ -38,9 +67,9 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]:
     | 'while' expr ':' '{' statement* '}'
     | 'if' expr ':' (statement|'{'statement*'}') 'else' (statement|'{'statement*'}')
     | p='print' expressions ';'  {for(Expression exp: $expressions.ast)
-                                  $ast.add(new Print($p.getLine(), $p.getCharPositionInLine()+1, exp}
+                                  $ast.add(new Print($p.getLine(), $p.getCharPositionInLine()+1, exp);}
     | 'input' expressions';'     {for(Expression exp: $expressions.ast)
-                                  $ast.add(new Input($p.getLine(), $p.getCharPositionInLine()+1, exp}
+                                  $ast.add(new Input($p.getLine(), $p.getCharPositionInLine()+1, exp);}
     | expr '=' expr ';'
     ;
 

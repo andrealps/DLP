@@ -1,11 +1,20 @@
 package ast;
 
-import java.util.List;
+public class Array extends AbstractType{
+    private int size;
+    private Type type;
 
-public class Array implements Type{
-    private List<Type> elements;
+    public Array(int line, int column, int size, Type type) {
+        super(line, column);
+        this.size = size;
+        this.type = type;
+    }
 
-    public Array(List<Type> elements) {
-        this.elements = elements;
+    public int getSize() {
+        return size;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

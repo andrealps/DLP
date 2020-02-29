@@ -1,10 +1,11 @@
 package ast;
 
-public class AbstractDefinition implements Definition {
+public class AbstractDefinition extends AbstractASTNode implements Definition {
     private Type type;
     private String name;
 
-    public AbstractDefinition(Type type, String name) {
+    public AbstractDefinition(int line, int column, Type type, String name) {
+        super(line, column);
         this.type = type;
         this.name = name;
     }
