@@ -1,6 +1,6 @@
 package ast;
 
-public class Arithmetic extends AbstractBinaryExpression {
+public class Arithmetic extends AbstractBinaryExpression implements Statement{
     private String operator;
 
     public Arithmetic(int line, int column, Expression expression1, Expression expression2, String operator) {

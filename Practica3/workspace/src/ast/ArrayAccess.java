@@ -1,20 +1,8 @@
 package ast;
 
-public class ArrayAccess extends AbstractExpression{
-    private String name;
-    private Expression expression;
+public class ArrayAccess extends AbstractBinaryExpression{
 
-    public ArrayAccess(int line, int column, String name, Expression expression) {
-        super(line, column);
-        this.name = name;
-        this.expression = expression;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Expression getExpression() {
-        return expression;
+    public ArrayAccess(int line, int column, Expression expression1, Expression expression2) {
+        super(line, column, expression1, expression2);
     }
 }

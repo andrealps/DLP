@@ -1,8 +1,12 @@
 package ast;
 
-public class RecordAcess extends AbstractBinaryExpression {
+public class RecordAcess extends AbstractExpression {
+    private Expression expression;
+    private String name;
 
-    public RecordAcess(int line, int column, Expression expression1, Expression expression2) {
-        super(line, column, expression1, expression2);
+    public RecordAcess(int line, int column, Expression expression, String name) {
+        super(line, column);
+        this.expression = expression;
+        this.name = name;
     }
 }
