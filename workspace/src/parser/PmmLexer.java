@@ -1,4 +1,4 @@
-// Generated from D:/UNIVERSIDAD/Tercer curso/DLP/Laboratorio/DLP/Practica3/workspace/src/parser\Pmm.g4 by ANTLR 4.8
+// Generated from D:/UNIVERSIDAD/Tercer curso/DLP/Laboratorio/DLP/workspace/src/parser\Pmm.g4 by ANTLR 4.8
 package parser;
 
     import ast.*;

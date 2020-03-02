@@ -1,4 +1,4 @@
-// Generated from D:/UNIVERSIDAD/Tercer curso/DLP/Laboratorio/DLP/Practica3/workspace/src/parser\Pmm.g4 by ANTLR 4.8
+// Generated from D:/UNIVERSIDAD/Tercer curso/DLP/Laboratorio/DLP/workspace/src/parser\Pmm.g4 by ANTLR 4.8
 package parser;
 
     import ast.*;
@@ -44,17 +44,17 @@ public interface PmmVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFuncdef(PmmParser.FuncdefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link PmmParser#params}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParams(PmmParser.ParamsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link PmmParser#listVariable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitListVariable(PmmParser.ListVariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PmmParser#params}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParams(PmmParser.ParamsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PmmParser#param}.
 	 * @param ctx the parse tree

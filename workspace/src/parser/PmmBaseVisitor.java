@@ -1,4 +1,4 @@
-// Generated from D:/UNIVERSIDAD/Tercer curso/DLP/Laboratorio/DLP/Practica3/workspace/src/parser\Pmm.g4 by ANTLR 4.8
+// Generated from D:/UNIVERSIDAD/Tercer curso/DLP/Laboratorio/DLP/workspace/src/parser\Pmm.g4 by ANTLR 4.8
 package parser;
 
     import ast.*;
@@ -55,14 +55,14 @@ public class PmmBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Pm
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParams(PmmParser.ParamsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitListVariable(PmmParser.ListVariableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListVariable(PmmParser.ListVariableContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParams(PmmParser.ParamsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

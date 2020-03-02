@@ -14,12 +14,12 @@ program returns [Program ast]:
 
 
 vardef returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
-    idm=ids ':' primitiveType ';'
+    idm=ids ':' type ';'
      { for (String id: $ids.ast)
-           $ast.add(new VarDefinition($idm.start.getLine(), $idm.start.getCharPositionInLine()+1, $primitiveType.ast, id));
+           $ast.add(new VarDefinition($idm.start.getLine(), $idm.start.getCharPositionInLine()+1, $type.ast, id));
      }
 
-    | ID ':' type ';'  {$ast.add(new VarDefinition($ID.getLine(), $ID.getCharPositionInLine()+1, $type.ast, $ID.text));}
+    | listVariable  {$ast.addAll($listVariable.ast);}
     ;
 
 primitiveType returns [Type ast]:
@@ -53,14 +53,16 @@ funcdef returns [FuncDefinition ast]:
          , $ID.text, $cuerpoFunc.ast);}
     ;
 
+
+listVariable returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
+    (ID ':' type ';' {$ast.add(new VarDefinition($ID.getLine(), $ID.getCharPositionInLine()+1, $type.ast, $ID.text));})+
+    ;
+
 params returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
     '('')'
     |'(' id1=param {$ast.add($id1.ast);}  (',' idm=param {$ast.add($idm.ast);})* ')'
     ;
 
-listVariable returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
-    (param ';' {$ast.add($param.ast);})+
-    ;
 
 param returns [VarDefinition ast]:
     ID ':' primitiveType {$ast = new VarDefinition($ID.getLine(), $ID.getCharPositionInLine()+1, $primitiveType.ast, $ID.text);}
