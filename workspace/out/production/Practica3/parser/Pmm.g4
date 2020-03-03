@@ -8,10 +8,16 @@ grammar Pmm;
 
 program returns [Program ast]:
     {List<Definition> defs = new ArrayList<Definition>();}
-    (vardef {defs.addAll($vardef.ast);} | funcdef {defs.add($funcdef.ast);})*
+    (vardef {defs.addAll($vardef.ast);} | funcdef {defs.add($funcdef.ast);})* main {defs.add($main.ast);}
     {$ast = new Program(0, 0, defs);}
 	;
 
+main returns [FuncDefinition ast]:
+   pri='def' nombre='main'  '(' ')'  ':' '{' cuerpoFunc '}'
+   {$ast = new FuncDefinition($pri.getLine(), $pri.getCharPositionInLine()+1,
+        new FunctionType($nombre.getLine(), $nombre.getCharPositionInLine()+1, new ArrayList<VarDefinition>(), VoidType.getInstance())
+        , "main", $cuerpoFunc.ast);}
+     ;
 
 vardef returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
     idm=ids ':' type ';'
@@ -37,10 +43,10 @@ type returns [Type ast]:
             LexerHelper.lexemeToInt($INT_CONSTANT.text), $type.ast);
     }
 
-    | pri='struct' '{' listVariable '}'
+    | pri='struct' '{' fields=listVariable '}'
     {List<RecordField> recordFields = new ArrayList<RecordField>();
-      for (VarDefinition variable: $listVariable.ast)
-          recordFields.add(new RecordField(variable.getName(), variable.getType()));
+      for (VarDefinition variable: $fields.ast)
+          recordFields.add(new RecordField($fields.start.getLine(), $fields.start.getCharPositionInLine()+1, variable.getName(), variable.getType()));
       $ast = new Record($pri.getLine(), $pri.getCharPositionInLine()+1, recordFields);
     }
     ;
@@ -107,7 +113,7 @@ cuerpoIter returns [List<Statement> ast = new ArrayList<Statement>()]:
     ;
 
 cuerpoFunc returns [List<Statement> ast = new ArrayList<Statement>()]:
-     (vardef {$ast.addAll($vardef.ast);} | statements {$ast.addAll($statements.ast);})*
+     (vardef {$ast.addAll($vardef.ast);})*  (statements {$ast.addAll($statements.ast);})*
     ;
 
 statements returns [List<Statement> ast = new ArrayList<Statement>()]:
