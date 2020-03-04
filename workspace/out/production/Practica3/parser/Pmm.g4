@@ -8,7 +8,7 @@ grammar Pmm;
 
 program returns [Program ast]:
     {List<Definition> defs = new ArrayList<Definition>();}
-    (vardef {defs.addAll($vardef.ast);} | funcdef {defs.add($funcdef.ast);})* main {defs.add($main.ast);}
+    (vardef {defs.addAll($vardef.ast);} | funcdef {defs.add($funcdef.ast);})* main EOF {defs.add($main.ast);}
     {$ast = new Program(0, 0, defs);}
 	;
 
@@ -43,7 +43,7 @@ type returns [Type ast]:
             LexerHelper.lexemeToInt($INT_CONSTANT.text), $type.ast);
     }
 
-    | pri='struct' '{' fields=listVariable '}'
+    | pri='struct' '{' fields=vardef '}'
     {List<RecordField> recordFields = new ArrayList<RecordField>();
       for (VarDefinition variable: $fields.ast)
           recordFields.add(new RecordField($fields.start.getLine(), $fields.start.getCharPositionInLine()+1, variable.getName(), variable.getType()));
@@ -88,8 +88,9 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]:
     | whi='while' expr ':' cuerpoIter
     {$ast.add(new While($whi.getLine(), $whi.getCharPositionInLine()+1, $expr.ast, $cuerpoIter.ast));}
 
-    | ifp='if' expr ':' ifC=cuerpoIter 'else' elseC=cuerpoIter
-    {$ast.add(new IfElse($ifp.getLine(), $ifp.getCharPositionInLine()+1, $expr.ast, $ifC.ast, $elseC.ast));}
+    | {List<Statement> elseC = new ArrayList<Statement>();}
+    ifp='if' expr ':' ifC=cuerpoIter ('else' cuerpoIter {elseC = $cuerpoIter.ast;})?
+    {$ast.add(new IfElse($ifp.getLine(), $ifp.getCharPositionInLine()+1, $expr.ast, $ifC.ast, elseC));}
 
     | p='print' expressions ';'
     {for (Expression exp: $expressions.ast)
@@ -109,7 +110,7 @@ cuerpoIter returns [List<Statement> ast = new ArrayList<Statement>()]:
     statement
     {$ast.addAll($statement.ast);}
 
-    |'{' (statements  {$ast.addAll($statements.ast);})? '}'
+    |'{' (statements {$ast.addAll($statements.ast);})*? '}'
     ;
 
 cuerpoFunc returns [List<Statement> ast = new ArrayList<Statement>()]:
