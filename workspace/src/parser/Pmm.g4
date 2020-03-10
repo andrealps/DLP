@@ -8,7 +8,7 @@ grammar Pmm;
 
 program returns [Program ast]:
     {List<Definition> defs = new ArrayList<Definition>();}
-    (vardef {defs.addAll($vardef.ast);} | funcdef {defs.add($funcdef.ast);})* main EOF {defs.add($main.ast);}
+    (vardef {defs.addAll($vardef.ast);} | funcdef {defs.add($funcdef.ast);})* main {defs.add($main.ast);}
     {$ast = new Program(0, 0, defs);}
 	;
 
@@ -21,11 +21,29 @@ main returns [FuncDefinition ast]:
 
 vardef returns [List<VarDefinition> ast = new ArrayList<VarDefinition>()]:
     idm=ids ':' type ';'
-     { for (String id: $ids.ast)
-           $ast.add(new VarDefinition($idm.start.getLine(), $idm.start.getCharPositionInLine()+1, $type.ast, id));
+     { for (String id: $ids.ast){
+           VarDefinition var = new VarDefinition($idm.start.getLine(), $idm.start.getCharPositionInLine()+1, $type.ast, id);
+           if ($ast.contains(var)){
+                new ErrorType($idm.start.getLine(), $idm.start.getCharPositionInLine()+1,
+                    "Error, la variable " + var.getName() + " ya está definida");
+           }
+           else {
+                $ast.add(var);
+           }
+       }
      }
 
-    | listVariable  {$ast.addAll($listVariable.ast);}
+    | list=listVariable
+    {   for (VarDefinition variable: $listVariable.ast){
+            if ($ast.contains(variable)){
+                new ErrorType($list.start.getLine(), $list.start.getCharPositionInLine()+1,
+                    "Error, la variable " + variable.getName() + " ya está definida");
+            }
+            else {
+                $ast.add(variable);
+            }
+        }
+    }
     ;
 
 primitiveType returns [Type ast]:
@@ -43,10 +61,18 @@ type returns [Type ast]:
             LexerHelper.lexemeToInt($INT_CONSTANT.text), $type.ast);
     }
 
-    | pri='struct' '{' fields=vardef '}'
+    | pri='struct' '{' fields=listVariable '}'
     {List<RecordField> recordFields = new ArrayList<RecordField>();
-      for (VarDefinition variable: $fields.ast)
-          recordFields.add(new RecordField($fields.start.getLine(), $fields.start.getCharPositionInLine()+1, variable.getName(), variable.getType()));
+      for (VarDefinition variable: $fields.ast){
+          RecordField record = new RecordField($fields.start.getLine(), $fields.start.getCharPositionInLine()+1, variable.getName(), variable.getType());
+          if (recordFields.contains(record)){
+              new ErrorType($fields.start.getLine(), $fields.start.getCharPositionInLine()+1,
+                                 "Error, la variable " + variable.getName() + " ya está definida");
+          }
+          else{
+              recordFields.add(record);
+          }
+       }
       $ast = new Record($pri.getLine(), $pri.getCharPositionInLine()+1, recordFields);
     }
     ;
@@ -88,9 +114,8 @@ statement returns [List<Statement> ast = new ArrayList<Statement>()]:
     | whi='while' expr ':' cuerpoIter
     {$ast.add(new While($whi.getLine(), $whi.getCharPositionInLine()+1, $expr.ast, $cuerpoIter.ast));}
 
-    | {List<Statement> elseC = new ArrayList<Statement>();}
-    ifp='if' expr ':' ifC=cuerpoIter ('else' cuerpoIter {elseC = $cuerpoIter.ast;})?
-    {$ast.add(new IfElse($ifp.getLine(), $ifp.getCharPositionInLine()+1, $expr.ast, $ifC.ast, elseC));}
+    | ifp='if' expr ':' ifC=cuerpoIter 'else' elseC=cuerpoIter
+    {$ast.add(new IfElse($ifp.getLine(), $ifp.getCharPositionInLine()+1, $expr.ast, $ifC.ast, $elseC.ast));}
 
     | p='print' expressions ';'
     {for (Expression exp: $expressions.ast)
@@ -110,7 +135,7 @@ cuerpoIter returns [List<Statement> ast = new ArrayList<Statement>()]:
     statement
     {$ast.addAll($statement.ast);}
 
-    |'{' (statements {$ast.addAll($statements.ast);})*? '}'
+    |'{' (statements  {$ast.addAll($statements.ast);})? '}'
     ;
 
 cuerpoFunc returns [List<Statement> ast = new ArrayList<Statement>()]:
@@ -202,8 +227,3 @@ CHAR_CONSTANT: '\'' (. | '\\' ('n' | 't' | [0-9]+) ) '\'' ;
 
 
 ID: ('_' [a-zA-Z0-9_] | [a-zA-Z]) [a-zA-Z0-9_]*;
-
-
-
-
-

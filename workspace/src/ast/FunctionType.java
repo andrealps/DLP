@@ -4,15 +4,15 @@ import java.util.List;
 
 public class FunctionType extends AbstractType {
     private List<VarDefinition> varDefinitions;
-    private Type field;
+    private Type returnType;
 
-    public FunctionType(int line, int column, List<VarDefinition> varDefinitions, Type field) {
+    public FunctionType(int line, int column, List<VarDefinition> varDefinitions, Type returnType) {
         super(line, column);
         this.varDefinitions = varDefinitions;
-        this.field = field;
+        this.returnType = returnType;
     }
 
-    public Type getField() {
-        return field;
+    public Type getReturnType() {
+        return returnType;
     }
 }

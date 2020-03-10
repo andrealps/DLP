@@ -23,4 +23,6 @@ public class VarDefinition extends AbstractDefinition implements Statement{
     protected void setScope(int scope) {
         this.scope = scope;
     }
+
+
 }
