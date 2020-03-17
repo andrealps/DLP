@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 public class VoidType extends AbstractType {
     private static VoidType voidType = new VoidType();
     private VoidType() {
@@ -10,5 +12,10 @@ public class VoidType extends AbstractType {
         if (voidType == null)
             voidType = new VoidType();
         return voidType;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 public class VarDefinition extends AbstractDefinition implements Statement{
     private int offset;
     private int scope;
@@ -24,5 +26,8 @@ public class VarDefinition extends AbstractDefinition implements Statement{
         this.scope = scope;
     }
 
-
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
+    }
 }

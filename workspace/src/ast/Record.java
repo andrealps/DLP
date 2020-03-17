@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.List;
 
 public class Record extends AbstractType {
@@ -12,5 +14,10 @@ public class Record extends AbstractType {
 
     public List<RecordField> getRecordFields() {
         return recordFields;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

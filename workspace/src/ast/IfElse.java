@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.List;
 
 public class IfElse extends AbstractUnaryExpressionStatement {
@@ -19,4 +21,10 @@ public class IfElse extends AbstractUnaryExpressionStatement {
     public List<Statement> getElseStatements() {
         return elseStatements;
     }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
+    }
+
 }

@@ -1,17 +1,17 @@
 package errorhandler;
 
 import ast.AbstractASTNode;
+import visitor.Visitor;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EH extends AbstractASTNode {
+public class EH {
     private static EH errorHandler;
     private List<ErrorType> errors = new ArrayList<ErrorType>();
 
     public EH() {
-        super(0, 0);
     }
 
     public static EH getEH(){

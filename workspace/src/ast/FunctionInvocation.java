@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.List;
 
 public class FunctionInvocation extends AbstractExpression implements Statement {
@@ -18,5 +20,10 @@ public class FunctionInvocation extends AbstractExpression implements Statement 
 
     public Variable getVariable() {
         return variable;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

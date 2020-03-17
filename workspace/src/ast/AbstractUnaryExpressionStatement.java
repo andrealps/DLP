@@ -3,7 +3,7 @@ package ast;
 /**
  * Un statement que a su vez tiene una única expresión
  */
-public class AbstractUnaryExpressionStatement extends AbstractStatement {
+public abstract class AbstractUnaryExpressionStatement extends AbstractStatement {
     private Expression expression;
 
     public AbstractUnaryExpressionStatement(int line, int column, Expression expression) {

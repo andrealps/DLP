@@ -1,6 +1,7 @@
 package errorhandler;
 
 import ast.AbstractType;
+import visitor.Visitor;
 
 public class ErrorType extends AbstractType {
     private String message;
@@ -18,5 +19,10 @@ public class ErrorType extends AbstractType {
     @Override
     public String toString(){
        return message;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

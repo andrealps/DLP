@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 public class IntType extends AbstractType{
     private static IntType intType = new IntType();
 
@@ -11,5 +13,10 @@ public class IntType extends AbstractType{
         if (intType == null)
             intType = new IntType();
         return intType;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

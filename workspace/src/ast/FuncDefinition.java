@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,5 +15,10 @@ public class FuncDefinition extends AbstractDefinition {
 
     public List<Statement> getStatements() {
         return statements;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

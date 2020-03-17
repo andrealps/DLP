@@ -6,6 +6,8 @@ import ast.Program;
 import errorhandler.EH;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
+import visitor.Visitor;
+import visitor.VisitorLValue;
 
 public class Main {
 
@@ -23,6 +25,9 @@ public class Main {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		PmmParser parser = new PmmParser(tokens);
 		Program ast = parser.program().ast;
+
+		Visitor visitor = new VisitorLValue();
+		ast.accept(visitor, null);
 
 		// * Check errors
 		if(EH.getEH().hasErrors()){

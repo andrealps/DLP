@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.List;
 
 public class FunctionType extends AbstractType {
@@ -12,7 +14,16 @@ public class FunctionType extends AbstractType {
         this.returnType = returnType;
     }
 
+    public List<VarDefinition> getVarDefinitions() {
+        return varDefinitions;
+    }
+
     public Type getReturnType() {
         return returnType;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

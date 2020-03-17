@@ -1,14 +1,12 @@
 package visitor;
 
 import ast.*;
+import errorhandler.*;
 
 public interface Visitor {
     Object visit (Program program, Object param);
-    Object visit (Definition definition, Object param);
     Object visit (FuncDefinition funcDefinition, Object param);
     Object visit (VarDefinition varDefinition, Object param);
-    Object visit (Statement statement, Object param);
-    Object visit (Expression expression, Object param);
     Object visit (Assigment assigment, Object param);
     Object visit (Arithmetic arithmetic, Object param);
     Object visit (Input input, Object param);
@@ -28,7 +26,6 @@ public interface Visitor {
     Object visit (DoubleLiteral doubleLiteral, Object param);
     Object visit (IntLiteral intLiteral, Object param);
     Object visit (CharLiteral charLiteral, Object param);
-    Object visit (Type type, Object param);
     Object visit (Record record, Object param);
     Object visit (RecordField recordField, Object param);
     Object visit (Array array, Object param);
@@ -37,4 +34,6 @@ public interface Visitor {
     Object visit (CharType charType, Object param);
     Object visit (VoidType voidType, Object param);
     Object visit (FunctionType functionType, Object param);
+    Object visit (ErrorType errorType, Object param);
+
 }

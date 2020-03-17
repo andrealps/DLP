@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 public class DoubleType extends AbstractType {
     private static DoubleType doubleType = new DoubleType();
     private DoubleType() {
@@ -10,5 +12,10 @@ public class DoubleType extends AbstractType {
         if (doubleType == null)
             doubleType = new DoubleType();
         return doubleType;
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

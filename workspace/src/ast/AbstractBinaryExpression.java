@@ -1,6 +1,6 @@
 package ast;
 
-public class AbstractBinaryExpression extends AbstractExpression{
+public abstract class AbstractBinaryExpression extends AbstractExpression{
     private Expression expression1;
     private Expression expression2;
 
@@ -17,4 +17,6 @@ public class AbstractBinaryExpression extends AbstractExpression{
     public Expression getExpression2() {
         return expression2;
     }
+
+
 }

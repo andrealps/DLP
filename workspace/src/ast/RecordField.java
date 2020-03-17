@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.Objects;
 
 public class RecordField extends AbstractASTNode {
@@ -31,5 +33,10 @@ public class RecordField extends AbstractASTNode {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 }

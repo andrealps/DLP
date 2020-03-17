@@ -1,8 +1,10 @@
 package ast;
 
+import visitor.Visitor;
+
 import java.util.Objects;
 
-public class AbstractDefinition extends AbstractASTNode implements Definition {
+public abstract class AbstractDefinition extends AbstractASTNode implements Definition {
     private Type type;
     private String name;
 
