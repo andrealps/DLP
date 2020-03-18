@@ -10,24 +10,18 @@ public class VarDefinition extends AbstractDefinition implements Statement{
         super(line, column, type, name);
     }
 
-    public int getOffset() {
-        return offset;
+    @Override
+    public Object accept(Visitor v, Object p){
+        return v.visit(this, p);
     }
 
-    protected void setOffset(int offset) {
-        this.offset = offset;
-    }
-
+    @Override
     public int getScope() {
         return scope;
     }
 
-    protected void setScope(int scope) {
-        this.scope = scope;
-    }
-
     @Override
-    public Object accept(Visitor v, Object p){
-        return v.visit(this, p);
+    public void setScope(int scope) {
+        this.scope = scope;
     }
 }

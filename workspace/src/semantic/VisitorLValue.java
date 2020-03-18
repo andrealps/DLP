@@ -1,7 +1,8 @@
-package visitor;
+package semantic;
 
 import ast.*;
 import errorhandler.ErrorType;
+import visitor.AbstractVisitor;
 
 public class VisitorLValue extends AbstractVisitor {
     @Override

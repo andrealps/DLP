@@ -3,7 +3,7 @@ package visitor;
 import ast.*;
 import errorhandler.ErrorType;
 
-public class AbstractVisitor implements Visitor {
+public abstract class AbstractVisitor implements Visitor {
     @Override
     public Object visit(Program program, Object param) {
         for (Definition def: program.getDefinitions())
