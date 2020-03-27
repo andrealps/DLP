@@ -11,5 +11,4 @@ public class Assigment extends AbstractBinaryExpression implements Statement{
     public Object accept(Visitor v, Object p){
         return v.visit(this, p);
     }
-
 }

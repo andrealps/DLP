@@ -8,7 +8,7 @@ import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 import semantic.IdentificationVisitor;
 import visitor.Visitor;
-import semantic.VisitorLValue;
+import semantic.TypeCheckingVisitor;
 
 public class Main {
 
@@ -31,7 +31,7 @@ public class Main {
 		visitor = new IdentificationVisitor();
 		ast.accept(visitor, null);
 
-		visitor = new VisitorLValue();
+		visitor = new TypeCheckingVisitor();
 		ast.accept(visitor, null);
 
 		// * Check errors

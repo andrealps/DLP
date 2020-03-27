@@ -1,5 +1,6 @@
 package ast;
 
+import errorhandler.ErrorType;
 import visitor.Visitor;
 
 public class CharType extends AbstractType {
@@ -20,4 +21,30 @@ public class CharType extends AbstractType {
         return v.visit(this, p);
     }
 
+    @Override
+    public Type arithmetic(Type type) {
+        if (type instanceof ErrorType || type instanceof CharType)
+            return type;
+        return null;
+    }
+    @Override
+    public Type comparison(Type type) {
+        if (type instanceof CharType)
+            return IntType.getInstance();
+        return null;
+    }
+
+    @Override
+    public Type promotesTo(Type type) {
+        if (type instanceof ErrorType || type instanceof CharType)
+            return type;
+        return null;
+    }
+
+    @Override
+    public Type canBeCastTo(Type type) {
+        if (type instanceof ErrorType || type instanceof IntType || type instanceof DoubleType || type instanceof CharType)
+            return type;
+        return null;
+    }
 }

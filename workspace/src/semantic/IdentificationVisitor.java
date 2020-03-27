@@ -17,7 +17,7 @@ public class IdentificationVisitor extends AbstractVisitor {
         table.set();
 
         funcDefinition.getType().accept(this, funcDefinition);
-        for(Statement s: funcDefinition.getStatements())
+        for (Statement s : funcDefinition.getStatements())
             s.accept(this, param);
 
         table.reset();
@@ -35,12 +35,10 @@ public class IdentificationVisitor extends AbstractVisitor {
 
     @Override
     public Object visit(Variable variable, Object param) {
-        Definition def = table.find(variable.getName());
-        if (def == null)
-            new ErrorType(variable.getLine(), variable.getColumn(),
-                    "Error, variable " + variable.getName() + " no definida");
-        else
-            variable.setDefinition(def);
+        variable.setDefinition(table.find(variable.getName()));
+        if (variable.getDefinition() == null)
+            variable.setDefinition(new VarDefinition(variable.getLine(), variable.getColumn(), new ErrorType(variable.getLine(), variable.getColumn(),
+                    "Error, variable " + variable.getName() + " no definida"), variable.getName()));
         return null;
     }
 }

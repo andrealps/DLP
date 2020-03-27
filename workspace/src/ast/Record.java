@@ -20,4 +20,12 @@ public class Record extends AbstractType {
     public Object accept(Visitor v, Object p){
         return v.visit(this, p);
     }
+
+    @Override
+    public Type dot(String fieldName) {
+        for (RecordField field: recordFields)
+            if (field.getName().equals(fieldName))
+                return field.getType();
+        return null;
+    }
 }
