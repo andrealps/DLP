@@ -47,4 +47,9 @@ public class CharType extends AbstractType {
             return type;
         return null;
     }
+
+    @Override
+    public int getSize() {
+        return 1;
+    }
 }

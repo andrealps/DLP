@@ -24,7 +24,7 @@ public class FunctionType extends AbstractType {
     }
 
     @Override
-    public Object accept(Visitor v, Object p){
+    public Object accept(Visitor v, Object p) {
         return v.visit(this, p);
     }
 
@@ -32,7 +32,7 @@ public class FunctionType extends AbstractType {
     public Type parenthesis(List<Expression> expressions) {
         if (varDefinitions.size() != expressions.size())
             return null;
-        for (int i = 0; i < varDefinitions.size(); i++){
+        for (int i = 0; i < varDefinitions.size(); i++) {
             if (varDefinitions.get(i).getType().promotesTo(expressions.get(i).getType()) == null)
                 return null;
         }
@@ -44,5 +44,10 @@ public class FunctionType extends AbstractType {
         if (type instanceof ErrorType || returnType.getClass().equals(type.getClass()))
             return type;
         return null;
+    }
+
+    @Override
+    public int getSize() {
+        return returnType.getSize();
     }
 }

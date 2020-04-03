@@ -17,15 +17,20 @@ public class Record extends AbstractType {
     }
 
     @Override
-    public Object accept(Visitor v, Object p){
+    public Object accept(Visitor v, Object p) {
         return v.visit(this, p);
     }
 
     @Override
     public Type dot(String fieldName) {
-        for (RecordField field: recordFields)
+        for (RecordField field : recordFields)
             if (field.getName().equals(fieldName))
                 return field.getType();
         return null;
+    }
+
+    @Override
+    public int getSize() {
+        return recordFields.stream().map(recordField -> recordField.getType().getSize()).reduce((total, size) -> total + size).get();
     }
 }

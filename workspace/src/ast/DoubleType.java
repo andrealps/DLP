@@ -51,4 +51,9 @@ public class DoubleType extends AbstractType {
             return type;
         return null;
     }
+
+    @Override
+    public int getSize() {
+        return 4;
+    }
 }

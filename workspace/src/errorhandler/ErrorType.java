@@ -12,17 +12,23 @@ public class ErrorType extends AbstractType {
         errorType();
     }
 
-    public void errorType(){
+    public void errorType() {
         EH.getEH().addError(this);
     }
 
     @Override
-    public String toString(){
-       return message;
+    public String toString() {
+        return message;
     }
 
     @Override
-    public Object accept(Visitor v, Object p){
+    public Object accept(Visitor v, Object p) {
         return v.visit(this, p);
+    }
+
+    @Override
+    public int getSize() {
+        // No se puede llegar aquí si no hay errores en la fase de análisis
+        throw new IllegalStateException("Error, hay fallos en el análisis");
     }
 }

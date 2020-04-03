@@ -1,3 +1,4 @@
+import codegenerator.OffsetVisitor;
 import parser.*;
 
 import org.antlr.v4.runtime.*;
@@ -32,6 +33,9 @@ public class Main {
 		ast.accept(visitor, null);
 
 		visitor = new TypeCheckingVisitor();
+		ast.accept(visitor, null);
+
+		visitor = new OffsetVisitor();
 		ast.accept(visitor, null);
 
 		// * Check errors

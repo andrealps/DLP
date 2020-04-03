@@ -15,4 +15,5 @@ public interface Type extends ASTNode{
     Type dot(String fieldName);
     Type parenthesis(List<Expression> expressions);
     Type checkReturnType(Type type);
+    int getSize();
 }

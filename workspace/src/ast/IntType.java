@@ -70,4 +70,9 @@ public class IntType extends AbstractType{
             return type;
         return null;
     }
+
+    @Override
+    public int getSize() {
+        return 2;
+    }
 }

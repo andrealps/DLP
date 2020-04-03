@@ -3,7 +3,7 @@ package ast;
 import errorhandler.ErrorType;
 import visitor.Visitor;
 
-public class Array extends AbstractType{
+public class Array extends AbstractType {
     private int size;
     private Type type;
 
@@ -13,7 +13,7 @@ public class Array extends AbstractType{
         this.type = type;
     }
 
-    public int getSize() {
+    public int getSizeOf() {
         return size;
     }
 
@@ -22,7 +22,7 @@ public class Array extends AbstractType{
     }
 
     @Override
-    public Object accept(Visitor v, Object p){
+    public Object accept(Visitor v, Object p) {
         return v.visit(this, p);
     }
 
@@ -36,4 +36,10 @@ public class Array extends AbstractType{
             squareBrackets(type);
         return null;
     }
+
+    @Override
+    public int getSize() {
+        return size * type.getSize();
+    }
+
 }

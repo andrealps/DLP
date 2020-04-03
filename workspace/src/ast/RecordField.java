@@ -5,6 +5,7 @@ import visitor.Visitor;
 import java.util.Objects;
 
 public class RecordField extends AbstractASTNode {
+    private int offset;
     private String name;
     private Type type;
 
@@ -38,5 +39,13 @@ public class RecordField extends AbstractASTNode {
     @Override
     public Object accept(Visitor v, Object p){
         return v.visit(this, p);
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 }

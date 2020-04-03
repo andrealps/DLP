@@ -18,4 +18,9 @@ public class VoidType extends AbstractType {
     public Object accept(Visitor v, Object p){
         return v.visit(this, p);
     }
+
+    @Override
+    public int getSize() {
+        return 0;
+    }
 }

@@ -24,4 +24,12 @@ public class VarDefinition extends AbstractDefinition implements Statement{
     public void setScope(int scope) {
         this.scope = scope;
     }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }
