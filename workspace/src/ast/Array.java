@@ -38,8 +38,8 @@ public class Array extends AbstractType {
     }
 
     @Override
-    public int getSize() {
-        return size * type.getSize();
+    public int numberOfBytes() {
+        return size * type.numberOfBytes();
     }
 
 }

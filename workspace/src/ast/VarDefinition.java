@@ -32,4 +32,8 @@ public class VarDefinition extends AbstractDefinition implements Statement{
     public void setOffset(int offset) {
         this.offset = offset;
     }
+
+    public String getInfo(){
+        return getType().getClass().getSimpleName() + " " + getName() + " (offset " + getOffset() + ")";
+    }
 }

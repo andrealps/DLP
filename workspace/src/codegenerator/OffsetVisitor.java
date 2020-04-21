@@ -15,12 +15,12 @@ public class OffsetVisitor extends AbstractVisitor {
         // Variables GLOBALES
         if (varDefinition.getScope() == 0) {
             varDefinition.setOffset(bytesGlobal);
-            bytesGlobal += varDefinition.getType().getSize();
+            bytesGlobal += varDefinition.getType().numberOfBytes();
         }
         // Variables LOCALES, lo damos por hecho
         else {
             // Las guardamos con signo negativo para que luego sea más fácil utilizarlas
-            bytesLocal -= varDefinition.getType().getSize();
+            bytesLocal -= varDefinition.getType().numberOfBytes();
             varDefinition.setOffset(bytesLocal);
         }
         return null;
@@ -33,8 +33,10 @@ public class OffsetVisitor extends AbstractVisitor {
         for (int i = functionType.getVarDefinitions().size() - 1; i >= 0; i--) {
             // Calcular offset de los parámetros, no visitarlos
             functionType.getVarDefinitions().get(i).setOffset(4 + bytesParam);
-            bytesParam += functionType.getVarDefinitions().get(i).getType().getSize();
+            bytesParam += functionType.getVarDefinitions().get(i).getType().numberOfBytes();
         }
+
+        functionType.setBytesParam(bytesParam);
         return null;
     }
 
@@ -44,6 +46,8 @@ public class OffsetVisitor extends AbstractVisitor {
         funcDefinition.getType().accept(this, funcDefinition);
         for (Statement s : funcDefinition.getStatements())
             s.accept(this, param);
+
+        funcDefinition.setBytesLocal(bytesLocal);
         return null;
     }
 
@@ -53,7 +57,7 @@ public class OffsetVisitor extends AbstractVisitor {
         for (RecordField r: record.getRecordFields()) {
             r.accept(this, param);
             r.setOffset(bytesField);
-            bytesField += r.getType().getSize();
+            bytesField += r.getType().numberOfBytes();
         }
         return null;
     }

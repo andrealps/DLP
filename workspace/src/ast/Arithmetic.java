@@ -14,4 +14,8 @@ public class Arithmetic extends AbstractBinaryExpression implements Statement{
     public Object accept(Visitor v, Object p){
         return v.visit(this, p);
     }
+
+    public String getOperator() {
+        return operator;
+    }
 }

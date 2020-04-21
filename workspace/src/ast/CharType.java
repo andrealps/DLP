@@ -49,7 +49,12 @@ public class CharType extends AbstractType {
     }
 
     @Override
-    public int getSize() {
+    public int numberOfBytes() {
         return 1;
+    }
+
+    @Override
+    public char suffix() {
+        return 'b';
     }
 }

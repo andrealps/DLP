@@ -67,4 +67,14 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
     public Type checkReturnType(Type type) {
         return null;
     }
+
+    @Override
+    public char suffix() {
+        return 0;
+    }
+
+    @Override
+    public int getOffsetByField(String name){
+        return 0;
+    }
 }

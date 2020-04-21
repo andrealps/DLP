@@ -30,7 +30,15 @@ public class Record extends AbstractType {
     }
 
     @Override
-    public int getSize() {
-        return recordFields.stream().map(recordField -> recordField.getType().getSize()).reduce((total, size) -> total + size).get();
+    public int numberOfBytes() {
+        return recordFields.stream().map(recordField -> recordField.getType().numberOfBytes()).reduce((total, size) -> total + size).get();
+    }
+
+    @Override
+    public int getOffsetByField(String name) {
+        for (int i = 0; i < recordFields.size(); i++)
+            if (recordFields.get(i).getName().equals(name))
+                return i;
+        return -1;
     }
 }

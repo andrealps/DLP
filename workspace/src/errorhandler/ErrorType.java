@@ -27,7 +27,7 @@ public class ErrorType extends AbstractType {
     }
 
     @Override
-    public int getSize() {
+    public int numberOfBytes() {
         // No se puede llegar aquí si no hay errores en la fase de análisis
         throw new IllegalStateException("Error, hay fallos en el análisis");
     }

@@ -1,3 +1,5 @@
+import codegenerator.CodeGenerator;
+import codegenerator.ExecuteCGVisitor;
 import codegenerator.OffsetVisitor;
 import parser.*;
 
@@ -36,6 +38,10 @@ public class Main {
 		ast.accept(visitor, null);
 
 		visitor = new OffsetVisitor();
+		ast.accept(visitor, null);
+
+		CodeGenerator cG = new CodeGenerator(args[0], "prueba.txt");
+		visitor = new ExecuteCGVisitor(cG);
 		ast.accept(visitor, null);
 
 		// * Check errors

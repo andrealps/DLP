@@ -9,10 +9,14 @@ public class FunctionType extends AbstractType {
     private List<VarDefinition> varDefinitions;
     private Type returnType;
 
+    private int bytesParam;
+
     public FunctionType(int line, int column, List<VarDefinition> varDefinitions, Type returnType) {
         super(line, column);
         this.varDefinitions = varDefinitions;
         this.returnType = returnType;
+
+        this.bytesParam = 0;
     }
 
     public List<VarDefinition> getVarDefinitions() {
@@ -47,7 +51,15 @@ public class FunctionType extends AbstractType {
     }
 
     @Override
-    public int getSize() {
-        return returnType.getSize();
+    public int numberOfBytes() {
+        return returnType.numberOfBytes();
+    }
+
+    public void setBytesParam(int bytesParam) {
+        this.bytesParam = bytesParam;
+    }
+
+    public int getBytesParam() {
+        return bytesParam;
     }
 }

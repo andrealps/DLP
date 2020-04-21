@@ -24,4 +24,5 @@ public class RecordAccess extends AbstractExpression {
     public Object accept(Visitor v, Object p){
         return v.visit(this, p);
     }
+
 }
