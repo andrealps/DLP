@@ -180,5 +180,17 @@ public class ValueCGVisitor extends AbstractCGVisitor {
          */
     }
 
-    // Object visit (FunctionInvocation functionInvocation, Object param);
+    @Override
+    public Object visit (FunctionInvocation functionInvocation, Object param){
+        for (Expression e: functionInvocation.getExpressions())
+            e.accept(this, param);
+        cG.call(functionInvocation.getVariable().getName());
+        return null;
+
+        /* value [[FunctionInvocation: expression1 -> expression2 expression*]]() =
+            for (Expression e: expression*)
+                value[[e]]()
+            <call expression1.name>
+         */
+    }
 }

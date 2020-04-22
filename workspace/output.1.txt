@@ -1,24 +1,27 @@
-#source "input.1.txt"
 
-	' * Array v (offset 0)
+#source	"input.txt"
 
-	' Invocation to the main function
+	' * ArrayType[of:RealType,size:10] v (offset 0)
+
+' Invocation to the main function
 call main
 halt
 
 
+#line	4
+
  main:
 	' * Parameters
 	' * Local variables
-	' * DoubleType value (offset -4)
+	' * RealType value (offset -4)
 	' * IntType i (offset -6)
 	' * IntType j (offset -8)
-	' * Array w (offset -48)
-	' * Record date (offset -54)
+	' * ArrayType[of:ArrayType[of:IntType,size:5],size:4] w (offset -48)
+	' * RecordType[fields:[Field[name:day,type:IntType offset:0], Field[name:month,type:IntType offset:2], Field[name:year,type:IntType offset:4]]] date (offset -54)
 	enter	54
 
 #line	12
-	' * Input
+	' * Read
 	push	bp
 	pushi	-54
 	addi
@@ -28,7 +31,7 @@ halt
 	storei
 
 #line	13
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-54
 	addi
@@ -39,7 +42,7 @@ halt
 	storei
 
 #line	14
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-54
 	addi
@@ -111,7 +114,7 @@ halt
 	outb
 
 #line	17
-	' * Input
+	' * Read
 	push	bp
 	pushi	-4
 	addi
@@ -119,7 +122,7 @@ halt
 	storef
 
 #line	19
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-6
 	addi
@@ -128,17 +131,20 @@ halt
 
 #line	20
 	' * While
- while_0:
+
+#line	20
+ label0:
 	push	bp
 	pushi	-6
 	addi
 	loadi
 	pushi	10
 	lti
-	jz	fin_while_0
+	jz	label1
+	' * While body
 
 #line	21
-	' * Assigment
+	' * Assignment
 	pusha	0
 	push	bp
 	pushi	-6
@@ -183,13 +189,18 @@ halt
 	' * Write
 	pushb	32
 	outb
+
+#line	23
+	' * If
+
+#line	23
 	push	bp
 	pushi	-6
 	addi
 	loadi
 	pushi	2
 	modi
-	jz	else_1
+	jz	label2
 	' * if body
 
 #line	24
@@ -211,8 +222,8 @@ halt
 	' * Write
 	pushb	10
 	outb
-	jmp	fin_if_1
- else_1:
+	jmp	label3
+ label2:
 	' * else body
 
 #line	26
@@ -239,10 +250,10 @@ halt
 	' * Write
 	pushb	10
 	outb
- fin_if_1:
+ label3:
 
 #line	27
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-6
 	addi
@@ -253,8 +264,8 @@ halt
 	pushi	1
 	addi
 	storei
-	jmp	while_0
- fin_while_0:
+	jmp	label0
+ label1:
 
 #line	29
 	' * Write
@@ -262,7 +273,7 @@ halt
 	outb
 
 #line	31
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-6
 	addi
@@ -271,17 +282,20 @@ halt
 
 #line	32
 	' * While
- while_2:
+
+#line	32
+ label4:
 	push	bp
 	pushi	-6
 	addi
 	loadi
 	pushi	4
 	lti
-	jz	fin_while_2
+	jz	label5
+	' * While body
 
 #line	33
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-8
 	addi
@@ -290,17 +304,20 @@ halt
 
 #line	34
 	' * While
- while_3:
+
+#line	34
+ label6:
 	push	bp
 	pushi	-8
 	addi
 	loadi
 	pushi	5
 	lti
-	jz	fin_while_3
+	jz	label7
+	' * While body
 
 #line	35
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-48
 	addi
@@ -357,7 +374,7 @@ halt
 	outb
 
 #line	37
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-8
 	addi
@@ -368,8 +385,8 @@ halt
 	pushi	1
 	addi
 	storei
-	jmp	while_3
- fin_while_3:
+	jmp	label6
+ label7:
 
 #line	39
 	' * Write
@@ -377,7 +394,7 @@ halt
 	outb
 
 #line	40
-	' * Assigment
+	' * Assignment
 	push	bp
 	pushi	-6
 	addi
@@ -388,6 +405,6 @@ halt
 	pushi	1
 	addi
 	storei
-	jmp	while_2
- fin_while_2:
-	ret 0, 54, 0
+	jmp	label4
+ label5:
+	ret	0, 54, 0

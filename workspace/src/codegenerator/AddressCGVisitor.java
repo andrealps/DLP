@@ -63,6 +63,7 @@ public class AddressCGVisitor extends AbstractCGVisitor {
         // a.b
         rA.getExpression().accept(this, param);
         int offsetField = rA.getExpression().getType().getOffsetByField(rA.getName());
+
         cG.push(offsetField);
         cG.add(IntType.getInstance());
 

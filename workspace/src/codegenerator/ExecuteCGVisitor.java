@@ -65,6 +65,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
     @Override
     public Object visit(Assigment assigment, Object param) {
         cG.println();
+        cG.commentInfo("line\t" + assigment.getLine());
         cG.commentLine("Assigment");
         assigment.getExpression1().accept(addressCGVisitor, param);
         assigment.getExpression2().accept(valueCGVisitor, param);
@@ -81,6 +82,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
     @Override
     public Object visit(Input input, Object param) {
         cG.println();
+        cG.commentInfo("line\t" + input.getLine());
         cG.commentLine("Input");
         input.getExpression().accept(addressCGVisitor, param);
         cG.in(input.getExpression().getType());
@@ -97,6 +99,7 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
     @Override
     public Object visit(Print print, Object param) {
         cG.println();
+        cG.commentInfo("line\t" + print.getLine());
         cG.commentLine("Write");
         print.getExpression().accept(valueCGVisitor, param);
         cG.out(print.getExpression().getType());
@@ -121,12 +124,12 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
         cG.ret(tamRetorno, tamLocales, tamParam);
         return null;
 
-        /* execute[[Return: statement -> expression]]() =
+        /* execute[[Return: statement -> expression]](funcDef) =
          value[[expression]]
          tamRetorno = expression.getType().numberOfBytes()
-         locales = funcDef.getBytesLocal()
-         parametros = funcDef.getBytesParam()
-         <ret> (tamRetorno, locales, parametros)
+         locales = funcDef.type.getBytesLocal()
+         parametros = funcDef.type.getBytesParam()
+         <ret> tamRetorno <,> locales <,> parametros
         */
     }
 
@@ -177,7 +180,82 @@ public class ExecuteCGVisitor extends AbstractCGVisitor {
          */
     }
 
-    // Object visit (While whileP, Object param);
-    // Object visit (IfElse ifElse, Object param);
-    // Object visit (FunctionInvocation functionInvocation, Object param);
+    @Override
+    public Object visit (While whileP, Object param){
+        cG.println();
+        cG.commentInfo("line\t" + whileP.getLine());
+        cG.commentLine("While");
+
+        int n = cG.label();
+        cG.printLabel(" while_" + n);
+        whileP.getExpression().accept(valueCGVisitor, param);
+        cG.jz("fin_while_" + n);
+
+        for (Statement st: whileP.getStatements()){
+            st.accept(this, param);
+        }
+        cG.jmp("while_" + n);
+        cG.printLabel(" fin_while_" + n);
+        return null;
+
+        /* execute [[While: statement -> expression statement*]] =
+        int n = gC.label()
+        <while> n <:>
+        value[[expression]]
+        <jz fin_while> n
+        for (Statement st: statement*){
+            execute[[st]]()
+        }
+        <jmp while> n
+        <fin_while> n <:>
+         */
+    }
+
+    @Override
+    public Object visit (FunctionInvocation functionInvocation, Object param){
+        functionInvocation.accept(valueCGVisitor, param);
+        if (((Expression)functionInvocation).getType() instanceof VoidType == false)
+            cG.pop(((Expression)functionInvocation).getType());
+        return null;
+
+        /* execute [[FunctionInvocation: statement -> expression expression*]]() =
+            value[[(Expression)statement]]()
+            if (!((Expression)statement).type instanceof VoidType)
+                <pop> ((Expression)statement).type.suffix()
+         */
+    }
+
+    @Override
+    public Object visit (IfElse ifElse, Object param){
+        int n = cG.label();
+        ifElse.getExpression().accept(valueCGVisitor, param);
+        cG.jz("else_" + n);
+
+        cG.commentLine("if body");
+        for (Statement st: ifElse.getIfStatements())
+            st.accept(this, param);
+
+        cG.jmp("fin_if_" + n);
+        cG.printLabel(" else_" + n);
+        cG.commentLine("else body");
+
+        for (Statement st: ifElse.getElseStatements())
+            st.accept(this, param);
+
+        cG.printLabel(" fin_if_" + n);
+        return null;
+
+        /* execute[[IfElse: statement -> espression ifStatement* elseStatement*]]() =
+            int n = gC.label()
+            value[[expression]]
+            <jz else> n <:>
+            for (Statement st: ifStatement*)
+                execute[[st]]()
+            <jmp fin_if> n <:>
+            <else> n <:>
+                for (Statement st: elseStatement*)
+                    execute[[st]]()
+            <fin_if> n <:>
+         */
+    }
 }

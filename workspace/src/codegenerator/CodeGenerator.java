@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 public class CodeGenerator {
     private PrintWriter out;
+    private int label;
 
     public CodeGenerator(String input, String output) {
         try {
@@ -317,6 +318,20 @@ public class CodeGenerator {
     }
 
     /**
+     * SALTOS
+     **/
+
+    public void jz(String label) {
+        out.println("\tjz\t" + label);
+        out.flush();
+    }
+
+    public void jmp(String label) {
+        out.println("\tjmp\t" + label);
+        out.flush();
+    }
+
+    /**
      * COMENTARIOS
      **/
 
@@ -345,6 +360,15 @@ public class CodeGenerator {
 
     public void println() {
         out.println();
+        out.flush();
+    }
+
+    public int label() {
+        return label++;
+    }
+
+    public void printLabel(String label) {
+        out.println(label + ":");
         out.flush();
     }
 }

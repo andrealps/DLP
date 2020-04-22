@@ -49,10 +49,12 @@ public class Main {
 			// * Show errors
 			EH.getEH().showErrors(System.err);
 		}
+		/*
 		else{
 			// * The AST is shown
 			IntrospectorModel model=new IntrospectorModel("Program", ast);
 			new IntrospectorTree("Introspector", model);
 		}
+		 */
 	}
 }

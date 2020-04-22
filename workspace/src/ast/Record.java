@@ -36,9 +36,14 @@ public class Record extends AbstractType {
 
     @Override
     public int getOffsetByField(String name) {
-        for (int i = 0; i < recordFields.size(); i++)
-            if (recordFields.get(i).getName().equals(name))
-                return i;
+        int offset = 0;
+        for (int i = 0; i < recordFields.size(); i++) {
+            if (recordFields.get(i).getName().equals(name)) {
+                return offset;
+            } else {
+                offset += recordFields.get(i).getType().numberOfBytes();
+            }
+        }
         return -1;
     }
 }
