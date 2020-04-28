@@ -1,0 +1,27 @@
+pair:struct {
+	integer:int;
+	character: struct {
+         hola:double;
+         adios:char;
+    };
+};
+
+def f(): {
+	i:int;
+	i=0;
+	while i<10: {
+		pair.character.hola = (double)i;
+		print pair.character.hola;
+		i=i+1;
+	}
+	pair.character.adios = 'b';
+}
+
+# Main program
+def main(): {
+	f();
+	pair.character.hola = 3.2;
+	pair.integer = 0;
+	print '\n';
+	print 'P', ':', pair.integer, ' ', pair.character.hola, ' ', pair.character.adios;
+}
