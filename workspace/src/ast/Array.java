@@ -42,4 +42,13 @@ public class Array extends AbstractType {
         return size * type.numberOfBytes();
     }
 
+    @Override
+    public String toString(){
+        String info = getClass().getSimpleName();
+        info += "[of:" + type.toString();
+        info += ", size:" + size + "]";
+
+        return info;
+    }
+
 }

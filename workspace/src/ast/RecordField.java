@@ -48,4 +48,13 @@ public class RecordField extends AbstractASTNode {
     public void setOffset(int offset) {
         this.offset = offset;
     }
+
+    @Override
+    public String toString(){
+        String info = getClass().getSimpleName();
+        info += "[name: " + name + ", type: " + type.toString() + " offset: " + offset + "]";
+        info += "]";
+
+        return info;
+    }
 }

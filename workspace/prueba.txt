@@ -1,253 +1,68 @@
-#source "input.1.txt"
+#source "pruebasExamen.txt"
 
-	' * Array v (offset 0)
+	' * Record[fields: [RecordField[name: integer, type: IntType offset: 0]], RecordField[name: character, type: Record[fields: [RecordField[name: hola, type: DoubleType offset: 0]], RecordField[name: adios, type: CharType offset: 4]]]] offset: 2]]]] pair (offset 0)
 
 	' Invocation to the main function
 call main
 halt
 
 
- main:
+ f:
 	' * Parameters
 	' * Local variables
-	' * DoubleType value (offset -4)
-	' * IntType i (offset -6)
-	' * IntType j (offset -8)
-	' * Array w (offset -48)
-	' * Record date (offset -54)
-	enter	54
+	' * IntType i (offset -2)
+	enter	2
+
+#line	11
+	' * Assigment
+	push	bp
+	pushi	-2
+	addi
+	pushi	0
+	storei
 
 #line	12
-	' * Input
-	push	bp
-	pushi	-54
-	addi
-	pushi	0
-	addi
-	ini
-	storei
-
-#line	13
-	' * Assigment
-	push	bp
-	pushi	-54
-	addi
-	pushi	4
-	addi
-	pushb	97
-	b2i
-	storei
-
-#line	14
-	' * Assigment
-	push	bp
-	pushi	-54
-	addi
-	pushi	2
-	addi
-	push	bp
-	pushi	-54
-	addi
-	pushi	0
-	addi
-	loadi
-	push	bp
-	pushi	-54
-	addi
-	pushi	4
-	addi
-	loadi
-	muli
-	pushi	12
-	modi
-	pushi	1
-	addi
-	storei
-
-#line	15
-	' * Write
-	push	bp
-	pushi	-54
-	addi
-	pushi	0
-	addi
-	loadi
-	outi
-
-#line	15
-	' * Write
-	pushb	10
-	outb
-
-#line	15
-	' * Write
-	push	bp
-	pushi	-54
-	addi
-	pushi	2
-	addi
-	loadi
-	outi
-
-#line	15
-	' * Write
-	pushb	10
-	outb
-
-#line	15
-	' * Write
-	push	bp
-	pushi	-54
-	addi
-	pushi	4
-	addi
-	loadi
-	i2f
-	outf
-
-#line	15
-	' * Write
-	pushb	10
-	outb
-
-#line	17
-	' * Input
-	push	bp
-	pushi	-4
-	addi
-	inf
-	storef
-
-#line	19
-	' * Assigment
-	push	bp
-	pushi	-6
-	addi
-	pushi	0
-	storei
-
-#line	20
 	' * While
  while_0:
 	push	bp
-	pushi	-6
+	pushi	-2
 	addi
 	loadi
 	pushi	10
 	lti
 	jz	fin_while_0
 
-#line	21
+#line	13
 	' * Assigment
 	pusha	0
+	pushi	2
+	addi
+	pushi	0
+	addi
 	push	bp
-	pushi	-6
+	pushi	-2
 	addi
 	loadi
-	pushi	4
-	muli
-	addi
-	push	bp
-	pushi	-4
-	addi
-	loadf
+	i2f
 	storef
 
-#line	22
-	' * Write
-	push	bp
-	pushi	-6
-	addi
-	loadi
-	outi
-
-#line	22
-	' * Write
-	pushb	58
-	outb
-
-#line	22
+#line	14
 	' * Write
 	pusha	0
-	push	bp
-	pushi	-6
+	pushi	2
 	addi
-	loadi
-	pushi	4
-	muli
+	pushi	0
 	addi
 	loadf
 	outf
 
-#line	22
-	' * Write
-	pushb	32
-	outb
-	push	bp
-	pushi	-6
-	addi
-	loadi
-	pushi	2
-	modi
-	jz	else_1
-	' * if body
-
-#line	24
-	' * Write
-	pushb	111
-	outb
-
-#line	24
-	' * Write
-	pushb	100
-	outb
-
-#line	24
-	' * Write
-	pushb	100
-	outb
-
-#line	24
-	' * Write
-	pushb	10
-	outb
-	jmp	fin_if_1
- else_1:
-	' * else body
-
-#line	26
-	' * Write
-	pushb	101
-	outb
-
-#line	26
-	' * Write
-	pushb	118
-	outb
-
-#line	26
-	' * Write
-	pushb	101
-	outb
-
-#line	26
-	' * Write
-	pushb	110
-	outb
-
-#line	26
-	' * Write
-	pushb	10
-	outb
- fin_if_1:
-
-#line	27
+#line	15
 	' * Assigment
 	push	bp
-	pushi	-6
+	pushi	-2
 	addi
 	push	bp
-	pushi	-6
+	pushi	-2
 	addi
 	loadi
 	pushi	1
@@ -256,138 +71,90 @@ halt
 	jmp	while_0
  fin_while_0:
 
-#line	29
+#line	17
+	' * Assigment
+	pusha	0
+	pushi	2
+	addi
+	pushi	4
+	addi
+	pushb	98
+	storeb
+	ret 0, 2, 0
+ main:
+	' * Parameters
+	' * Local variables
+	enter	0
+call f
+
+#line	23
+	' * Assigment
+	pusha	0
+	pushi	2
+	addi
+	pushi	0
+	addi
+	pushf	3.2
+	storef
+
+#line	24
+	' * Assigment
+	pusha	0
+	pushi	0
+	addi
+	pushi	0
+	storei
+
+#line	25
 	' * Write
 	pushb	10
 	outb
 
-#line	31
-	' * Assigment
-	push	bp
-	pushi	-6
-	addi
-	pushi	0
-	storei
-
-#line	32
-	' * While
- while_2:
-	push	bp
-	pushi	-6
-	addi
-	loadi
-	pushi	4
-	lti
-	jz	fin_while_2
-
-#line	33
-	' * Assigment
-	push	bp
-	pushi	-8
-	addi
-	pushi	0
-	storei
-
-#line	34
-	' * While
- while_3:
-	push	bp
-	pushi	-8
-	addi
-	loadi
-	pushi	5
-	lti
-	jz	fin_while_3
-
-#line	35
-	' * Assigment
-	push	bp
-	pushi	-48
-	addi
-	push	bp
-	pushi	-6
-	addi
-	loadi
-	pushi	10
-	muli
-	addi
-	push	bp
-	pushi	-8
-	addi
-	loadi
-	pushi	2
-	muli
-	addi
-	push	bp
-	pushi	-6
-	addi
-	loadi
-	push	bp
-	pushi	-8
-	addi
-	loadi
-	addi
-	storei
-
-#line	36
+#line	26
 	' * Write
-	push	bp
-	pushi	-48
-	addi
-	push	bp
-	pushi	-6
-	addi
-	loadi
-	pushi	10
-	muli
-	addi
-	push	bp
-	pushi	-8
-	addi
-	loadi
-	pushi	2
-	muli
+	pushb	80
+	outb
+
+#line	26
+	' * Write
+	pushb	58
+	outb
+
+#line	26
+	' * Write
+	pusha	0
+	pushi	0
 	addi
 	loadi
 	outi
 
-#line	36
+#line	26
 	' * Write
 	pushb	32
 	outb
 
-#line	37
-	' * Assigment
-	push	bp
-	pushi	-8
-	addi
-	push	bp
-	pushi	-8
-	addi
-	loadi
-	pushi	1
-	addi
-	storei
-	jmp	while_3
- fin_while_3:
-
-#line	39
+#line	26
 	' * Write
-	pushb	10
+	pusha	0
+	pushi	2
+	addi
+	pushi	0
+	addi
+	loadf
+	outf
+
+#line	26
+	' * Write
+	pushb	32
 	outb
 
-#line	40
-	' * Assigment
-	push	bp
-	pushi	-6
+#line	26
+	' * Write
+	pusha	0
+	pushi	2
 	addi
-	push	bp
-	pushi	-6
+	pushi	4
 	addi
-	loadi
-	pushi	1
-	addi
-	storei
-	jmp	while_2
- fin_while_2:
-	ret 0, 54, 0
+	loadb
+	outb
+	ret 0, 0, 0

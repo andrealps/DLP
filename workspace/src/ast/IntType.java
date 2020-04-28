@@ -80,4 +80,9 @@ public class IntType extends AbstractType{
     public char suffix() {
         return 'i';
     }
+
+    @Override
+    public String toString(){
+        return getClass().getSimpleName();
+    }
 }

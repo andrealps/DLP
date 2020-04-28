@@ -57,4 +57,9 @@ public class CharType extends AbstractType {
     public char suffix() {
         return 'b';
     }
+
+    @Override
+    public String toString(){
+        return getClass().getSimpleName();
+    }
 }

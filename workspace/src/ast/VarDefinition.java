@@ -34,6 +34,6 @@ public class VarDefinition extends AbstractDefinition implements Statement{
     }
 
     public String getInfo(){
-        return getType().getClass().getSimpleName() + " " + getName() + " (offset " + getOffset() + ")";
+        return getType().toString() + " " + getName() + " (offset " + getOffset() + ")";
     }
 }
